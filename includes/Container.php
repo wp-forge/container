@@ -94,7 +94,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool
 	 */
-	public function has( $id ) {
+	public function has( string $id ) {
 		return array_key_exists( $id, $this->entries );
 	}
 
@@ -107,7 +107,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function raw( $id ) {
+	public function raw( string $id ) {
 		if ( ! $this->has( $id ) ) {
 			throw new NotFoundException( sprintf( 'No entry was found for "%s" identifier.', $id ) );
 		}
@@ -124,7 +124,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function get( $id ) {
+	public function get( string $id ) {
 		// Return class instance, if available.
 		if ( isset( $this->instances[ $id ] ) ) {
 			return $this->instances[ $id ];
@@ -161,7 +161,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return $this
 	 */
-	public function set( $id, $value ) {
+	public function set( string $id, $value ) {
 		$this->entries[ $id ] = $value;
 
 		return $this;
@@ -176,7 +176,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function delete( $id ) {
+	public function delete( string $id ) {
 		if ( $this->has( $id ) ) {
 			$value = $this->get( $id );
 			if ( $this->isFactory( $value ) ) {
@@ -199,7 +199,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return $this
 	 */
-	public function deleteInstance( $id ) {
+	public function deleteInstance( string $id ) {
 		unset( $this->instances[ $id ] );
 
 		return $this;
@@ -227,7 +227,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function extend( $id, Closure $closure ) {
+	public function extend( string $id, Closure $closure ) {
 
 		// Get the existing raw value
 		$value = $this->raw( $id );
