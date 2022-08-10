@@ -156,8 +156,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	/**
 	 * Set an array value by ID.
 	 *
-	 * @param string $id    The entry identifier.
-	 * @param mixed  $value The entry value.
+	 * @param string $id The entry identifier.
+	 * @param mixed $value The entry value.
 	 *
 	 * @return $this
 	 */
@@ -219,7 +219,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	/**
 	 * Extend a factory or service by creating a closure that will manipulate the instantiated instance.
 	 *
-	 * @param string  $id
+	 * @param string $id
 	 * @param Closure $closure
 	 *
 	 * @return Closure
@@ -415,7 +415,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool True on success or false on failure.
 	 */
-	public function offsetExists( mixed $offset ) {
+	public function offsetExists( mixed $offset ): mixed {
 		return $this->has( $offset );
 	}
 
@@ -430,7 +430,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function offsetGet( mixed $offset ) {
+	public function offsetGet( mixed $offset ): mixed {
 		return $this->get( $offset );
 	}
 
@@ -440,11 +440,11 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 * Method implements ArrayAccess.
 	 *
 	 * @param mixed $offset The offset to assign the value to.
-	 * @param mixed $value  The value to set.
+	 * @param mixed $value The value to set.
 	 *
 	 * @return void
 	 */
-	public function offsetSet( mixed $offset, mixed $value ) {
+	public function offsetSet( mixed $offset, mixed $value ): void {
 		$this->set( $offset, $value );
 	}
 
@@ -459,7 +459,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function offsetUnset( mixed $offset ) {
+	public function offsetUnset( mixed $offset ): void {
 		$this->delete( $offset );
 	}
 
