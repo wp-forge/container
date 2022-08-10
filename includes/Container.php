@@ -358,7 +358,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function current() {
+	public function current(): mixed {
 		return $this->offsetGet( $this->key() );
 	}
 
@@ -369,7 +369,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return void Any returned value is ignored.
 	 */
-	public function next() {
+	public function next(): void {
 		++ $this->pointer;
 	}
 
@@ -380,7 +380,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return string The entry identifier for the current entry.
 	 */
-	public function key() {
+	public function key(): mixed {
 		return $this->keys()[ $this->pointer ];
 	}
 
@@ -391,7 +391,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool The return value will be cast to boolean and then evaluated.
 	 */
-	public function valid() {
+	public function valid(): bool {
 		return isset( $this->keys()[ $this->pointer ] );
 	}
 
@@ -402,7 +402,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return void Any returned value is ignored.
 	 */
-	public function rewind() {
+	public function rewind(): void {
 		$this->pointer = 0;
 	}
 
@@ -415,7 +415,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool True on success or false on failure.
 	 */
-	public function offsetExists( $offset ) {
+	public function offsetExists( mixed $offset ) {
 		return $this->has( $offset );
 	}
 
@@ -430,7 +430,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function offsetGet( $offset ) {
+	public function offsetGet( mixed $offset ) {
 		return $this->get( $offset );
 	}
 
@@ -444,7 +444,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return void
 	 */
-	public function offsetSet( $offset, $value ) {
+	public function offsetSet( mixed $offset, mixed $value ) {
 		$this->set( $offset, $value );
 	}
 
@@ -459,7 +459,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function offsetUnset( $offset ) {
+	public function offsetUnset( mixed $offset ) {
 		$this->delete( $offset );
 	}
 
@@ -470,7 +470,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return int
 	 */
-	public function count() {
+	public function count(): int {
 		return count( $this->entries );
 	}
 }

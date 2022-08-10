@@ -1,6 +1,6 @@
 # Container
 
-A lightweight, PHP 7.0+ compatible, PSR-11 dependency injection container.
+A lightweight, PHP 8.0+ compatible, PSR-11 dependency injection container.
 
 ## Usage
 
