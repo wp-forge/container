@@ -1,6 +1,6 @@
 {
   "name": "wp-forge/container",
-  "description": "A lightweight, PHP 5.4+ compatible, PSR-11 dependency injection container.",
+  "description": "A lightweight, PHP 7.0+ compatible, PSR-11 dependency injection container.",
   "type": "library",
   "license": "GPL-2.0-or-later",
   "authors": [
