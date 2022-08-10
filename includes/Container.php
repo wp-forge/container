@@ -415,7 +415,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool True on success or false on failure.
 	 */
-	public function offsetExists( mixed $offset ): mixed {
+	public function offsetExists( mixed $offset ): bool {
 		return $this->has( $offset );
 	}
 
