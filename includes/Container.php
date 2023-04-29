@@ -6,7 +6,6 @@ use ArrayAccess;
 use Closure;
 use Countable;
 use Iterator;
-use Psr\Container\ContainerInterface;
 use SplObjectStorage;
 
 /**
@@ -94,7 +93,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool
 	 */
-	public function has( string $id ) {
+	public function has( $id ) {
 		return array_key_exists( $id, $this->entries );
 	}
 
@@ -107,7 +106,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function raw( string $id ) {
+	public function raw( $id ) {
 		if ( ! $this->has( $id ) ) {
 			throw new NotFoundException( sprintf( 'No entry was found for "%s" identifier.', $id ) );
 		}
@@ -124,7 +123,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function get( string $id ) {
+	public function get( $id ) {
 		// Return class instance, if available.
 		if ( isset( $this->instances[ $id ] ) ) {
 			return $this->instances[ $id ];
@@ -156,12 +155,12 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	/**
 	 * Set an array value by ID.
 	 *
-	 * @param string $id The entry identifier.
-	 * @param mixed $value The entry value.
+	 * @param string $id    The entry identifier.
+	 * @param mixed  $value The entry value.
 	 *
 	 * @return $this
 	 */
-	public function set( string $id, $value ) {
+	public function set( $id, $value ) {
 		$this->entries[ $id ] = $value;
 
 		return $this;
@@ -176,7 +175,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function delete( string $id ) {
+	public function delete( $id ) {
 		if ( $this->has( $id ) ) {
 			$value = $this->get( $id );
 			if ( $this->isFactory( $value ) ) {
@@ -199,7 +198,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return $this
 	 */
-	public function deleteInstance( string $id ) {
+	public function deleteInstance( $id ) {
 		unset( $this->instances[ $id ] );
 
 		return $this;
@@ -219,7 +218,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	/**
 	 * Extend a factory or service by creating a closure that will manipulate the instantiated instance.
 	 *
-	 * @param string $id
+	 * @param string  $id
 	 * @param Closure $closure
 	 *
 	 * @return Closure
@@ -227,7 +226,7 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 * @throws ContainerException
 	 * @throws NotFoundException
 	 */
-	public function extend( string $id, Closure $closure ) {
+	public function extend( $id, Closure $closure ) {
 
 		// Get the existing raw value
 		$value = $this->raw( $id );
@@ -358,7 +357,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function current(): mixed {
+	#[\ReturnTypeWillChange]
+	public function current() {
 		return $this->offsetGet( $this->key() );
 	}
 
@@ -369,7 +369,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return void Any returned value is ignored.
 	 */
-	public function next(): void {
+	#[\ReturnTypeWillChange]
+	public function next() {
 		++ $this->pointer;
 	}
 
@@ -380,7 +381,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return string The entry identifier for the current entry.
 	 */
-	public function key(): mixed {
+	#[\ReturnTypeWillChange]
+	public function key() {
 		return $this->keys()[ $this->pointer ];
 	}
 
@@ -391,7 +393,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool The return value will be cast to boolean and then evaluated.
 	 */
-	public function valid(): bool {
+	#[\ReturnTypeWillChange]
+	public function valid() {
 		return isset( $this->keys()[ $this->pointer ] );
 	}
 
@@ -402,7 +405,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return void Any returned value is ignored.
 	 */
-	public function rewind(): void {
+	#[\ReturnTypeWillChange]
+	public function rewind() {
 		$this->pointer = 0;
 	}
 
@@ -415,7 +419,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return bool True on success or false on failure.
 	 */
-	public function offsetExists( mixed $offset ): bool {
+	#[\ReturnTypeWillChange]
+	public function offsetExists( $offset ) {
 		return $this->has( $offset );
 	}
 
@@ -430,7 +435,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException  No entry was found for **this** identifier.
 	 */
-	public function offsetGet( mixed $offset ): mixed {
+	#[\ReturnTypeWillChange]
+	public function offsetGet( $offset ) {
 		return $this->get( $offset );
 	}
 
@@ -440,11 +446,12 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 * Method implements ArrayAccess.
 	 *
 	 * @param mixed $offset The offset to assign the value to.
-	 * @param mixed $value The value to set.
+	 * @param mixed $value  The value to set.
 	 *
 	 * @return void
 	 */
-	public function offsetSet( mixed $offset, mixed $value ): void {
+	#[\ReturnTypeWillChange]
+	public function offsetSet( $offset, $value ) {
 		$this->set( $offset, $value );
 	}
 
@@ -459,7 +466,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @throws NotFoundException
 	 */
-	public function offsetUnset( mixed $offset ): void {
+	#[\ReturnTypeWillChange]
+	public function offsetUnset( $offset ) {
 		$this->delete( $offset );
 	}
 
@@ -470,7 +478,8 @@ class Container implements ArrayAccess, ContainerInterface, Countable, Iterator 
 	 *
 	 * @return int
 	 */
-	public function count(): int {
+	#[\ReturnTypeWillChange]
+	public function count() {
 		return count( $this->entries );
 	}
 }
